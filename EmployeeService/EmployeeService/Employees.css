@@ -1,0 +1,26 @@
+﻿.titlebar{
+    background-color: deepskyblue;
+    text-align: center;
+}
+
+.menubar {
+    background-color: aqua;
+    text-align: center;
+}
+
+
+.list{
+    background-color: aliceblue;
+}
+
+.add {
+    background-color: aliceblue;
+}
+
+.delete {
+    background-color: aliceblue;
+}
+
+.modify {
+    background-color: aliceblue
+}

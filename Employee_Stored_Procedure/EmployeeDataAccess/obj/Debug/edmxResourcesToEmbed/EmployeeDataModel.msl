@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="EmployeeSPModelStoreContainer" CdmEntityContainer="EmployeeSPEntities">
+    <EntitySetMapping Name="Employees">
+      <EntityTypeMapping TypeName="EmployeeSPModel.Employee">
+        <MappingFragment StoreEntitySet="Employees">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Gender" ColumnName="Gender" />
+          <ScalarProperty Name="Salary" ColumnName="Salary" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="usp_DeleteEmployee" FunctionName="EmployeeSPModel.Store.usp_DeleteEmployee" />
+    <FunctionImportMapping FunctionImportName="usp_GetEmployee" FunctionName="EmployeeSPModel.Store.usp_GetEmployee">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="EmployeeSPModel.usp_GetEmployee_Result">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Gender" ColumnName="Gender" />
+          <ScalarProperty Name="Salary" ColumnName="Salary" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="usp_GetEmployees" FunctionName="EmployeeSPModel.Store.usp_GetEmployees">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="EmployeeSPModel.usp_GetEmployees_Result">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Gender" ColumnName="Gender" />
+          <ScalarProperty Name="Salary" ColumnName="Salary" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="usp_InsertEmployee" FunctionName="EmployeeSPModel.Store.usp_InsertEmployee" />
+    <FunctionImportMapping FunctionImportName="usp_UpdateEmployee" FunctionName="EmployeeSPModel.Store.usp_UpdateEmployee" />
+  </EntityContainerMapping>
+</Mapping>

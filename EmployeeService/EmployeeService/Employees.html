@@ -1,0 +1,230 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="Employees.css">
+    <script src="Scripts/jquery-3.4.1.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var tblEmp = $('#tblEmp');
+
+            $('#btnlist').click(function () {
+                $.ajax({
+                    type: 'GET',
+                    url: 'api/employees',
+                    datatype: 'application/json',
+                    success: function (data) {
+                        tblEmp.empty();
+                        $.each(data, function (index, val) {
+                            tblEmp.append('<tr><td>' + val.ID + '</td><td>' + val.FirstName + '</td><td>' + val.LastName + '</td><td>' + val.Gender + '</td><td>' + val.Salary + '</td></tr>')
+                        });
+                    }
+                })
+            });
+
+            $('#btnclear').click(function () {
+                tblEmp.empty();
+            })
+
+            $('#btnadd').click(function () {
+                var emp = new Object();
+                emp.FirstName = $('#fname_add').val();
+                emp.LastName = $('#lname_add').val();
+                emp.Gender = $('#gender_add').val();
+                emp.Salary = $('#salary_add').val();
+                $.ajax({
+                    type: 'POST',
+                    url: 'api/employees',
+                    datatype: 'application/json',
+                    data: emp,
+                    success: function (data, textStatus, xhr) {
+                        console.log(data);
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        console.log("Error");
+                    }
+                });
+            });
+
+            $('#btndelete').click(function () {
+                var id = $('#id_delete').val();
+                alert("You are about to delete User with ID : " + id.toString());
+                console.log(id);
+                $.ajax({
+                    type: 'DELETE',
+                    url: 'api/employees/' + id.toString(),
+                    datatype: 'application/json',
+                    success: function (data, textStatus, xhr) {
+                        console.log(data);
+                        window.alert("User with ID : " + id.toString() + " deleted successfully");
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        console.log("Error");
+                        window.alert("User with ID : " + id.toString() + " could not be deleted ");
+                    }
+                });
+            });
+
+            $('#btnupdate').click(function () {
+                var emp = new Object();
+                var id_val = $('#id_update').val();
+                alert("You are about to update User with ID : " + id_val.toString());
+                console.log(id_val);
+                emp.FirstName = $('#fname_update').val();
+                emp.LastName = $('#lname_update').val();
+                emp.Gender = $('#gender_update').val();
+                emp.Salary = $('#salary_update').val();
+                $.ajax({
+                    type: 'PUT',
+                    url: 'api/employees/' + id_val.toString(),
+                    datatype: 'application/json',
+                    data: emp,
+                    success: function (data, textStatus, xhr) {
+                        console.log(data);
+                        window.alert("User with ID : " + id.toString() + " modified successfully");
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        console.log("Error");
+                        window.alert("User with ID : " + id.toString() + " could not be modified ");
+                    }
+                });
+            });
+
+        });
+
+
+    </script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row titlebar">
+            <h1> User Database</h1>
+        </div>
+        <div class="row menubar">
+            <div class="col-sm-3">
+                <h3> List of Users</h3>
+            </div>
+            <div class="col-sm-3">
+                <h3> Add Users</h3>
+            </div>
+            <div class="col-sm-3">
+                <h3> Delete Users</h3>
+            </div>
+            <div class="col-sm-3">
+                <h3> Modify Users</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3 list">
+                <button id="btnlist" type="button" class="btn btn-info">Get All Users</button>
+                <button id="btnclear" type="button" class="btn btn-info">Clear</button>
+                <table class="table" >
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Firstname</th>
+                            <th>Lastname</th>
+                            <th>Gender</th>
+                            <th>Salary</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tblEmp">
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-sm-3 add">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-sm" for="fname">First Name</label>
+                        <div class="col-sm">
+                            <input type="text" class="form-control" id="fname_add" placeholder="Enter First Name" name="fname">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm" for="lname">Last Name</label>
+                        <div class="col-sm">
+                            <input type="text" class="form-control" id="lname_add" placeholder="Enter Last Name" name="lname">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm" for="gender">Gender</label>
+                        <div class="col-sm">
+                            <input type="text" class="form-control" id="gender_add" placeholder="Enter Gender" name="gender">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm" for="salary">Salary</label>
+                        <div class="col-sm">
+                            <input type="number" class="form-control" id="salary_add" placeholder="Enter Salary" name="salary">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset col-sm">
+                            <button id="btnadd" type="submit" class="btn btn-default">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-sm-3 delete">
+                <form class="form-horizontal" >
+                    <div class="form-group">
+                        <label class="control-label col-sm" for="id">User ID</label>
+                        <div class="col-sm">
+                            <input type="number" class="form-control" id="id_delete" placeholder="Enter User ID" name="id">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset col-sm">
+                            <button id="btndelete"type="submit" class="btn btn-default">Submit</button>
+                        </div>
+                    </div>
+                </form>     
+            </div>
+            <div class="col-sm-3 modify">
+                <form class="form-horizontal" >
+                    <div class="form-group">
+                        <label class="control-label col-sm" for="id">User ID</label>
+                        <div class="col-sm">
+                            <input type="number" class="form-control" id="id_update" placeholder="Enter User ID" name="id">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm" for="fname">First Name</label>
+                        <div class="col-sm">
+                            <input type="text" class="form-control" id="fname_update" placeholder="Enter First Name" name="fname">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm" for="lname">Last Name</label>
+                        <div class="col-sm">
+                            <input type="text" class="form-control" id="lname_update" placeholder="Enter Last Name" name="lname">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm" for="gender">Gender</label>
+                        <div class="col-sm">
+                            <input type="text" class="form-control" id="gender_update" placeholder="Enter Gender" name="gender">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm" for="salary">Salary</label>
+                        <div class="col-sm">
+                            <input type="number" class="form-control" id="salary_update" placeholder="Enter Salary" name="salary">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset col-sm">
+                            <button id="btnupdate" type="submit" class="btn btn-default">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
